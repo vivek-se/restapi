@@ -20,10 +20,11 @@ class LibraryData(APIView):
 		return Response(serializer.data)
 
 	def post(self, request):
-		data = request.data
-		obj=library.objects.create(book_id = data[0],book_name = data[1], student_id = data[2])
+		bid = request.data['book_id']
+		bname = request.data['book_name']
+		sid = request.data['student_id']
+		obj=library.objects.create(book_id = bid, book_name = bname, student_id = sid)
 		obj.save()
-
 
 class LibraryDataid(APIView):
 
