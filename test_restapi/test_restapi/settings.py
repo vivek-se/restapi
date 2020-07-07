@@ -25,7 +25,7 @@ SECRET_KEY = '8))#b9ho&07*k8v-up#7y*k1m%%6gg32mpniurgng@nqxd_07x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'test_restapi',
+    'channels',
+    'chat',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +74,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'test_restapi.wsgi.application'
 
+# Channels
+ASGI_APPLICATION = 'test_restapi.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -82,9 +97,17 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST' : 'localhost'
-    }
+    },
+    'TEST': {
+            'NAME': os.path.join(BASE_DIR, 'db_test.postgresql')
+        }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
