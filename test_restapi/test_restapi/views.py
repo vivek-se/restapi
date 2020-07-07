@@ -6,13 +6,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from test_restapi.serializers import librarySerializer, studentSerializer
 from . models import library, student
-#from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
 class LibraryData(APIView):
-	#permission_classes = (permissions.AllowAny,)
-	#permission_classes = [IsAuthenticated]
+	permission_classes = (IsAuthenticated,)
 
 	def get(self, request):
 		queryset = library.objects.all()
@@ -23,8 +23,29 @@ class LibraryData(APIView):
 		bid = request.data['book_id']
 		bname = request.data['book_name']
 		sid = request.data['student_id']
-		obj=library.objects.create(book_id = bid, book_name = bname, student_id = sid)
-		obj.save()
+		student_instance = student.objects.get(student_id = sid)
+		obj=library.objects.create(book_id = bid, book_name = bname, student_id = student_instance)
+		obj.save()  
+		queryset = library.objects.all()
+		serializer = librarySerializer(queryset, many = True)
+		return Response(serializer.data)
+
+'''@api_view(['GET', 'POST'])
+def LibraryData(request):
+    
+    if request.method == 'GET':
+        queryset = library.objects.all()
+        serializer = librarySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = librarySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
+
+
 
 class LibraryDataid(APIView):
 
@@ -56,3 +77,6 @@ class StudentDataid(APIView):
 
 	def post(self):
 		pass
+
+
+
