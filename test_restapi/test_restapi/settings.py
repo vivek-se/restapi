@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'test_restapi',
     'channels',
     'chat',
-    'account',
 ]
 
 MIDDLEWARE = [
