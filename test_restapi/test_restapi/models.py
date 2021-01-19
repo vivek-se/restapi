@@ -22,3 +22,4 @@ def student_save(sender, instance, **kwargs):
 
 #for signal
 post_save.connect(student_save, sender = student)
+ 
