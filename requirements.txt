@@ -8,6 +8,6 @@ pip==20.0.2
 djangorestframework==3.11.0
 djangorestframework-simplejwt==4.4.0
 django-postman==3.6.2 
-django-filter==2.3.0
+django-filter==2.3.0 
 channels-redis==3.0.0
 channels==2.4.0 
