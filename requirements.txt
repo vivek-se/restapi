@@ -4,7 +4,7 @@ postgresql==12.3
 libpq-dev
 python-dev
 psycopg2==2.8.5
-pip==20.0.2
+pip==21.1
 djangorestframework==3.11.0
 djangorestframework-simplejwt==4.4.0
 django-postman==3.6.2 
